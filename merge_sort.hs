@@ -23,9 +23,9 @@ getInputs = do
     inp <- getLine
     case parseInput inp of
         Nothing -> return []
-        Just goodFloat -> do
+        Just goodNum -> do
             allInps <- getInputs
-            return (goodFloat:allInps)
+            return (goodNum:allInps)
 
 -- ****************** INPUT PARSING ENDS HERE *******************
 
@@ -34,7 +34,7 @@ getInputs = do
 -- Define mergesort as a function that takes
 -- a list of floats and outputs a sorted list
 -- of floats.
-mergesort :: [Float] -> [Float]
+mergesort :: Ord a => [a] -> [a]
 -- Since it will be recursive, define the base cases:
 
 -- Empty lists are already sorted!
@@ -50,7 +50,6 @@ mergesort [a, b] = if a > b then [b, a] else [a, b]
 -- and apply merge sort on them.
 mergesort xs = 
     -- Find the mid point.
-    -- let mid = div (length xs) 2 in
     -- split list by mid point and recursively sort them.
     -- after done sorting, combine them.
     combine (mergesort $ take mid xs) (mergesort $ drop mid xs)
@@ -60,7 +59,7 @@ mergesort xs =
 
 -- Define combine as a function that takes
 -- two lists and outputs their combined list.
-combine :: [Float] -> [Float] -> [Float]
+combine :: Ord a => [a] -> [a] -> [a]
 -- if a list is empty, the other is the result.
 combine [] a = a
 combine b [] = b
@@ -80,9 +79,9 @@ combine (first_a:a_rest) (first_b:b_rest) =
 main :: IO()
 main = do
     logHeader
-    allFloats <- getInputs
-    putStrLn "The floats you entered are: "
-    putStrLn $ show $ allFloats
+    allNums <- getInputs
+    putStrLn "The numbers you entered are: "
+    putStrLn $ show $ allNums
     putStrLn "After sorting:"
-    putStrLn $ show $ mergesort allFloats
+    putStrLn $ show $ mergesort allNums
 
